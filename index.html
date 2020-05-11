@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>facebook</title>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+
+</head>
+
+<body>
+    <script src="https://www.gstatic.com/firebasejs/7.14.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.3/firebase-firestore.js"></script>
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyBGXSSJ-fpT7OI7646Ng2MWzRYgXaosyc8",
+            authDomain: "facebookauth-c7fb1.firebaseapp.com",
+            databaseURL: "https://facebookauth-c7fb1.firebaseio.com",
+            projectId: "facebookauth-c7fb1",
+            storageBucket: "facebookauth-c7fb1.appspot.com",
+            // messagingSenderId: "554740536802",
+            // appId: "1:554740536802:web:11381453ace9801a6c55bb"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    </script>
+    <h1>facebook login</h1>
+    <button id="signIn" onclick="signIn()">SignIn</button>
+    <button id="SignOut" onclick="signOut()">SignOut</button>
+    <script>
+        function signIn() {
+
+            var provider = new firebase.auth.FacebookAuthProvider();
+            provider.addScope('email');
+            firebase.auth().useDeviceLanguage();
+
+            firebase.auth().signInWithPopup(provider).then(function (result) {
+                // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+                var token = result.credential.accessToken;
+
+                // The signed-in user info.
+                var user = result.user;
+
+                console.log(user.email);
+                // ...
+            }).catch(function (error) {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                // The email of the user's account used.
+                var email = error.email;
+                // The firebase.auth.AuthCredential type that was used.
+                var credential = error.credential;
+                // ...
+            });
+            firebase.auth().signOut();
+        }
+        function signOut() {
+            firebase.auth().signOut().then(function () {
+                alert('Sign-out successful.');
+            }).catch(function (error) {
+                alert('An error happened.');
+            });
+        }
+    </script>
+</body>
+
+</html>
